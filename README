@@ -5,11 +5,12 @@ sPoNgEmOcKiFy CoMmAnD fOr DaNkTiMeSbOt.
 
 - git clone this repo into your DankTimesBot/plugins directory.
 - Add `spongemock` to your `/data/config.json` file.
+
 ```
-```sh
 $ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/spongemock
 ```
-```json
+
+```
 { 
   ...,
   "plugins": [
@@ -20,7 +21,7 @@ $ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/sp
 ```
 
 ## Usage
-```sh
+```
 > /spongemock some input string
 < SoMe InPuT sTrInG
 
