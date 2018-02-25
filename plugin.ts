@@ -1,4 +1,5 @@
 import { AbstractPlugin } from "../../src/plugin-host/plugin/plugin";
+import { ChatMessage } from "../../src/chat/chat-message/chat-message";
 
 export class Plugin extends AbstractPlugin
 {
@@ -6,14 +7,25 @@ export class Plugin extends AbstractPlugin
   {
     super("Spongemock", "1.0.0", {});
 
-    this.registerCommand("spongemock", (_params: string[]) => 
+    this.registerCommand("spongemock", (params: ChatMessage) => 
     {
-      return [ this.spongmockify(_params) ];
-    })
+      return [ 
+        (params.reply_text.length > 0) 
+        ? this.spongmockify(params.reply_text)
+        : this.spongmockify(params.text) 
+      ];
+    });
+
+    console.log("Loaded Spongemock!");
   }
 
-  private spongmockify(_message: string[]): string {
+  private spongmockify(_message: string): string {
       let spaces: number = 0;
-      return `${_message.join(' ').split("").map((value,idx) => { return ((idx+((value===' ') ? spaces++ : spaces))%2) ? value.toLowerCase() : value.toUpperCase() }).join("")}`;
+      const mockery = (value, idx) => ((idx+((value === ' ') ? spaces++ : spaces))%2) ? value.toLowerCase() : value.toUpperCase();
+
+      return `${_message
+      .split("")
+      .map(mockery)
+      .join("")}`;
   }
 } 
