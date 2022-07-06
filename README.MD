@@ -30,6 +30,9 @@ $ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/sp
 `
 
 ## Changelog
+### 1.0.2
+- Added /s & /spons as a shortcut
+- Added mock for `(` and `)`
 
 ### 1.0.1
 - Spongemock now works with DankTimesBot 2.0.0

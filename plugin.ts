@@ -13,17 +13,19 @@ export class Plugin extends AbstractPlugin {
     ";": "⁏",
     "/": "\\",
     "\\": "/",
+    "(": ")",
+    ")":"(",
   }
 
   constructor() {
-    super("Spongemock", "1.0.1");
+    super("Spongemock", "1.0.2");
   }
 
   /**
    * @override
    */
   public getPluginSpecificCommands(): BotCommand[] {
-    const command = new BotCommand(["spongemock", "🧽"], "spongemockifies a quoted message", this.spongmockify.bind(this));
+    const command = new BotCommand(["spongemock", "🧽", "s", "spons"], "spongemockifies a quoted message", this.spongmockify.bind(this));
     return [command];
   }
 
