@@ -3,6 +3,7 @@ import { Chat } from "../../src/chat/chat";
 import { User } from "../../src/chat/user/user";
 import { AbstractPlugin } from "../../src/plugin-host/plugin/plugin";
 import TelegramBot from "node-telegram-bot-api";
+import { throws } from "assert";
 
 export class Plugin extends AbstractPlugin {
   private specialCasingMap = {
@@ -38,17 +39,31 @@ export class Plugin extends AbstractPlugin {
         : (this.isSpecialCharacter(value) ? this.convertSpecial(value, false) : value.toUpperCase());
 
     let message = "";
-    if (msg.reply_to_message) {
-      message = msg.reply_to_message.text ?? "";
-    } else {
-      const textSplit = (msg.text as string).split(" ");
-      message = textSplit.slice(1, textSplit.length).join(" ");
+    let replyToMessageId: number | undefined = undefined;
+    
+    let msgTextSplit = (msg.text as string).split(" ");
+    if (msgTextSplit.length > 1){
+      message = msgTextSplit.slice(1, msgTextSplit.length).join(" ");
     }
+    if (msg.reply_to_message) {
+      if (message === "") {
+        message = msg.reply_to_message.text ?? "";
+      }
+      else {
+        replyToMessageId = msg.reply_to_message.message_id;
+      }
+    } 
 
-    return `${(message ?? "")
+    let messageToSend = `${(message ?? "")
         .split("")
         .map(mockery)
         .join("")}`;
+
+    if (messageToSend) {
+      this.sendMessage(chat.id, messageToSend, replyToMessageId, false);
+    }
+
+    return "";
   }
 
   private isSpecialCharacter(character: string): boolean {
