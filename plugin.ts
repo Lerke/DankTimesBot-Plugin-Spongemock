@@ -12,35 +12,35 @@ export class Plugin extends AbstractPlugin {
     ".": "·",
     ",": "'",
     ";": "⁏",
-    "/": "\\",
-    "\\": "/",
     "(": ")",
-    ")":"(",
+    "/": "\\",
+    "_": "—",
   }
 
   constructor() {
-    super("Spongemock", "1.0.2");
+    super("sPoNgEmOcK", "1.0.3");
   }
 
   /**
    * @override
    */
   public getPluginSpecificCommands(): BotCommand[] {
-    const command = new BotCommand(["spongemock", "🧽", "s", "spons"], "spongemockifies a quoted message", this.spongmockify.bind(this));
-    return [command];
+    const spongemockCommand = new BotCommand(["spongemock", "🧽", "s", "spons"], "spongemockifies a quoted message", this.spongemockify.bind(this));
+    const sneakymockCommand = new BotCommand(["sneakymock", "💨", "sm"], "spongemockifies a quoted message and deletes your message", this.sneakymockify.bind(this));
+    return [spongemockCommand, sneakymockCommand];
   }
 
-  private spongmockify(chat: Chat, user: User, msg: TelegramBot.Message, match: string): string {
+  private spongemockify(chat: Chat, user: User, msg: TelegramBot.Message, match: string): string {
     var initialCase = (Math.random() < 0.5) ? 0 : 1;
     let spaces: number = 0;
     const mockery = (value: string, idx: number) => ((initialCase + idx + ((value === " ")
         ? spaces++ : spaces)) % 2)
-        ? (this.isSpecialCharacter(value) ? this.convertSpecial(value, true) : value.toLowerCase())
-        : (this.isSpecialCharacter(value) ? this.convertSpecial(value, false) : value.toUpperCase());
+        ? (this.isSpecialCharacter(value) ? value : value.toLowerCase())
+        : (this.isSpecialCharacter(value) ? this.convertSpecial(value) : value.toUpperCase());
 
     let message = "";
     let replyToMessageId: number | undefined = undefined;
-    
+
     let msgTextSplit = (msg.text as string).split(" ");
     if (msgTextSplit.length > 1){
       message = msgTextSplit.slice(1, msgTextSplit.length).join(" ");
@@ -66,29 +66,33 @@ export class Plugin extends AbstractPlugin {
     return "";
   }
 
+  private sneakymockify(chat: Chat, user: User, msg: TelegramBot.Message, match: string): string {
+    this.spongemockify(chat, user, msg, match);
+
+    this.deleteMessage(chat.id, msg.message_id);
+
+    return "";
+  }
+
   private isSpecialCharacter(character: string): boolean {
     return Object.keys(this.specialCasingMap)
         .concat(Object.values(this.specialCasingMap))
         .find(x => x == character) != undefined;
   }
 
-  private convertSpecial(character: string, leftToRight: boolean): string {
+  private convertSpecial(character: string): string {
     var r = character;
 
-    if (leftToRight) {
-      // @ts-ignore
-      r = this.specialCasingMap[character] ?? r;
-    } else {
-      let values = Object.keys(this.specialCasingMap)
-          .filter(f => {
-            // @ts-ignore
-            return this.specialCasingMap[f] === character
-          });
-      if (values.length > 0) {
-        r = values[0];
-      }
-    }
+    let valueByKey = this.specialCasingMap[r];
+    let keyByValue = Object.keys(this.specialCasingMap).find(key => this.specialCasingMap[key] === r);
 
+    if (valueByKey != undefined) {
+      return valueByKey;
+    }
+    else if (keyByValue != undefined){
+      return keyByValue
+    }
+    
     return r;
   }
 }
