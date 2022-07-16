@@ -30,6 +30,13 @@ $ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/sp
 `
 
 ## Changelog
+### 1.0.3
+- Added priority to inline text over reply text.
+- If there's both inline text and a reply the inline text will be mocked in reply to the same message replied by the user.
+- Fixed special characters mapping bug.
+- Added _ & - as special characters.
+- Added /sneakymock /💨 & /sm. Your message will be deleted after the spongemock.
+
 ### 1.0.2
 - Added /s & /spons as a shortcut
 - Added mock for `(` and `)`
