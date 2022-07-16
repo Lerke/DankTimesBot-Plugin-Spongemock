@@ -47,7 +47,12 @@ export class Plugin extends AbstractPlugin {
     }
     if (msg.reply_to_message) {
       if (message === "") {
-        message = msg.reply_to_message.text ?? "";
+        if (msg.reply_to_message.text) {
+          message = msg.reply_to_message.text;
+        }
+        else if (msg.reply_to_message.caption) {
+          message = msg.reply_to_message.caption;
+        }
       }
       else {
         replyToMessageId = msg.reply_to_message.message_id;
