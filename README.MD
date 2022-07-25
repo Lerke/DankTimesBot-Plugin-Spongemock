@@ -2,14 +2,10 @@
 sPoNgEmOcKiFy CoMmAnD fOr DaNkTiMeSbOt.
 
 ## Installation
-
-- git clone this repo into your DankTimesBot/plugins directory.
+- Git clone this repo into your DankTimesBot/plugins directory.
 - Add `spongemock` to your `/data/config.json` file.
 
-`
-$ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/spongemock
-`
-
+`$ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/spongemock`
 `
 { 
   ...,
@@ -21,15 +17,23 @@ $ git clone https://github.com/lerke/danktimesbot-plugin-spongemock ./plugins/sp
 `
 
 ## Usage
-`
-> /spongemock some input string
-< SoMe InPuT sTrInG
-
-> /spongemock
-< /spongemock [reply message]
-`
+> \> /spongemock some input string
+> < SoMe InPuT sTrInG
 
 ## Changelog
+### 1.1.0
+- Refactored code to make it more consistent
+    - Photo caption mock also usable by miakomock
+    - Sneakymock also usable by miakomock (sneakymiakomock) 
+- Changed the commands so they don't overlap: 
+    - /spongemock, /sm, /🧽, /spons
+    - /miakomock, /mm, /🙏
+    - /sneakyspongemock, /ssm, /💨🧽
+    - /sneakymiakomock, /smm, /💨🙏
+
+### 1.0.4
+- Added miakomock (/miakomock /🙏 /mm)
+
 ### 1.0.3
 - Added priority to inline text over reply text.
 - If there's both inline text and a reply the inline text will be mocked in reply to the same message replied by the user.
